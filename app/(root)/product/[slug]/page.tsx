@@ -5,6 +5,7 @@ import ProductPrice from "@/components/shared/product/product-price";
 import { getProductBySlug } from "@/lib/actions/product.actions";
 import { notFound } from "next/navigation";
 import ProductImages from "@/components/shared/product/product-images";
+import AddToCart from "@/components/shared/product/add-to-cart";
 
 const ProductDetailPage = async (props: {
   params: Promise<{ slug: string }>;
@@ -64,7 +65,7 @@ const ProductDetailPage = async (props: {
                 </div>
                 {product.stock > 0 && (
                   <div className="flex-center">
-                    {/* <AddToCart
+                    <AddToCart
                       item={{
                         productId: product.id,
                         name: product.name,
@@ -73,7 +74,7 @@ const ProductDetailPage = async (props: {
                         qty: 1,
                         image: product.images![0],
                       }}
-                    /> */}
+                    />
                   </div>
                 )}
               </CardContent>
