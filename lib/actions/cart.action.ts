@@ -182,9 +182,11 @@ export async function removeItemFromCart(productId: string) {
       );
     } else {
       // Decrease the quantity
-      cart.items = (cart.items as CartItem[]).find(
+      const itemToUpdate = (cart.items as CartItem[]).find(
         (x) => x.productId === exist.productId
-      )!.qty = exist.qty - 1;
+      );
+      if (!itemToUpdate) throw new Error("Inconsistent cart state");
+      itemToUpdate.qty = exist.qty - 1;
     }
 
     await prisma.cart.update({
