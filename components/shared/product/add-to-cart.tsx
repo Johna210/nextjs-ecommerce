@@ -45,7 +45,6 @@ const AddToCart = ({ cart, item }: { cart?: Cart; item: CartItem }) => {
   const handleRemoveFromCart = async () => {
     startTransition(async () => {
       const res = await removeItemFromCart(item.productId);
-      console.log(res);
 
       toast({
         variant: res.success ? "default" : "destructive",

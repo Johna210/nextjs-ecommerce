@@ -154,8 +154,6 @@ export async function removeItemFromCart(productId: string) {
     const sessionCartId = (await cookies()).get("sessionCartId")?.value;
     if (!sessionCartId) throw new Error("Cart session not found");
 
-    console.log(`sessionCartId: ${sessionCartId}`);
-
     // Get product
     const product = await prisma.product.findFirst({
       where: { id: productId },
@@ -166,8 +164,6 @@ export async function removeItemFromCart(productId: string) {
     // Get user cart
     const cart = await getMyCart();
     if (!cart) throw new Error("Cart not found");
-
-    console.log(`Cart items: ${JSON.stringify(cart.items)}`);
 
     // Check for item
     const exist = (cart.items as CartItem[]).find(
