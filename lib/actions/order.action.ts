@@ -107,7 +107,7 @@ export async function getOrderById(orderId: string) {
     },
 
     include: {
-      orderItems: true,
+      OrderItem: true,
       user: {
         select: {
           name: true,
