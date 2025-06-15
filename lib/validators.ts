@@ -1,6 +1,6 @@
 import { z } from "zod";
 import { formatNumberWithDecimal } from "./utils";
-import { PAYMENT_METHODS } from "./constants";
+import { PAYMENT_METHODS, USER_ROLES } from "./constants";
 
 const currency = z
   .string()
@@ -124,4 +124,12 @@ export const paymentResultSchema = z.object({
 export const updateProfileSchema = z.object({
   name: z.string().min(3, "Name must be at least 3 characters"),
   email: z.string().min(3, "Email must be at least 3 characters"),
+});
+
+// Schema for updating users
+export const updateUserSchema = updateProfileSchema.extend({
+  id: z.string().uuid().min(1, "Id is required"),
+  role: z.string().refine((data) => USER_ROLES.includes(data), {
+    message: "Invalid role",
+  }),
 });
