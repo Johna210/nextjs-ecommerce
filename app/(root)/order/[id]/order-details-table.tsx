@@ -29,15 +29,18 @@ import { useToast } from "@/hooks/use-toast";
 import type { OnApproveData } from "@paypal/paypal-js";
 import { useTransition } from "react";
 import { Button } from "@/components/ui/button";
+import StripePayment from "./stripe-payment";
 
 const OrderDetailsTable = ({
   order,
   paypalClientId,
   isAdmin,
+  stripeClientSecret,
 }: {
   order: Order;
   paypalClientId: string;
   isAdmin: boolean;
+  stripeClientSecret: string | null;
 }) => {
   const {
     id,
@@ -250,12 +253,23 @@ const OrderDetailsTable = ({
                   </PayPalScriptProvider>
                 </div>
               )}
+              {/* Stripe Payment */}
+              {!isPaid && paymentMethod === "Stripe" && stripeClientSecret && (
+                <StripePayment
+                  priceInCents={Number(order.totalPrices) * 100}
+                  orderId={order.id}
+                  clientSecret={stripeClientSecret}
+                />
+              )}
+
               {/* Cash on Delivery */}
               {isAdmin && !isPaid && paymentMethod === "CashOnDelivery" && (
                 <MarkAsPaidButton />
               )}
 
-              {isAdmin && !isDelivered && <MarkAsDeliveredButton />}
+              {isAdmin &&
+                !isDelivered &&
+                paymentMethod === "CashOnDelivery" && <MarkAsDeliveredButton />}
             </CardContent>
           </Card>
         </div>
